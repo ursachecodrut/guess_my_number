@@ -1,17 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 Random random = Random();
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp();
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -20,14 +20,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Home(),
     );
   }
 }
 
 class Home extends StatefulWidget {
-  const Home();
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -38,15 +38,15 @@ class _HomeState extends State<Home> {
     return int.tryParse(string) != null;
   }
 
-  showAlertDialog(BuildContext context) {
-    Widget cancelButton = TextButton(
-      child: Text("Ok"),
+  void showAlertDialog(BuildContext context) {
+    final Widget cancelButton = TextButton(
+      child: const Text('Ok'),
       onPressed: () {
         Navigator.pop(context);
       },
     );
-    Widget continueButton = TextButton(
-      child: Text("Try again"),
+    final Widget continueButton = TextButton(
+      child: const Text('Try again'),
       onPressed: () {
         setState(() {
           randomNumber = random.nextInt(101) + 1;
@@ -55,17 +55,17 @@ class _HomeState extends State<Home> {
       },
     );
 
-    AlertDialog alert = AlertDialog(
-      title: Text("Yop got it"),
-      content: Text("The number was $randomNumber"),
-      actions: [
+    final AlertDialog alert = AlertDialog(
+      title: const Text('Yop got it'),
+      content: Text('The number was $randomNumber'),
+      actions: <Widget>[
         continueButton,
         cancelButton,
       ],
     );
 
     // show the dialog
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return alert;
@@ -75,19 +75,19 @@ class _HomeState extends State<Home> {
 
   int randomNumber = random.nextInt(101) + 1;
   TextEditingController controller = TextEditingController();
-  String? infoMessage = "";
+  String? infoMessage = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Guess my number"),
+        title: const Text('Guess my number'),
         centerTitle: true,
       ),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               "I'm thinking of a number between 1 and 100",
               textAlign: TextAlign.center,
@@ -96,8 +96,8 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               "It's your turn to guess my number",
               textAlign: TextAlign.center,
@@ -111,42 +111,42 @@ class _HomeState extends State<Home> {
             child: Text(
               infoMessage!,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 25.0,
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.all(20.0),
+            margin: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: <BoxShadow>[
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.6),
                   spreadRadius: 5,
                   blurRadius: 7,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Column(
-              children: [
+              children: <Widget>[
                 Container(
-                  margin: EdgeInsets.all(20.0),
-                  child: Text(
-                    "Enter a number",
+                  margin: const EdgeInsets.all(20.0),
+                  child: const Text(
+                    'Enter a number',
                     style: TextStyle(
                       fontSize: 20,
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.all(20.0),
+                  margin: const EdgeInsets.all(20.0),
                   child: TextField(
                     keyboardType: TextInputType.number,
                     controller: controller,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -155,19 +155,19 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     setState(() {
                       if (isNumeric(controller.text)) {
-                        int number = int.parse(controller.text);
+                        final int number = int.parse(controller.text);
                         if (number > randomNumber) {
-                          infoMessage = "You tried $number. Try lower!";
+                          infoMessage = 'You tried $number. Try lower!';
                         } else if (number < randomNumber) {
-                          infoMessage = "You tried $number. Try higher!";
+                          infoMessage = 'You tried $number. Try higher!';
                         } else {
                           showAlertDialog(context);
                         }
                       }
                     });
                   },
-                  child: Text(
-                    "Guess!",
+                  child: const Text(
+                    'Guess!',
                   ),
                 ),
               ],
